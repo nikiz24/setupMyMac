@@ -3,8 +3,10 @@
 # 安装Homebrew
 install_homebrew(){
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+}
 
-echo '👍  为了让brew运行更加顺畅，将使用中国科学技术大学USTC提供的镜像，更新中，请等待...'
+# update
+update_binary(){
 cd "$(brew --repo)"
 git remote set-url origin https://mirrors.ustc.edu.cn/brew.git
 
@@ -19,17 +21,20 @@ git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git
 # 在这里添加或者删除你需要的GUI软件包名称
 brew_cask_app_list=(
 QQ
+sourcetree
+visual-studio-code
+teamviewer
+free-download-manager
+virtualbox
 shadowsocksX-ng
 wechat
 iina
-jietu
-microsoft-teams
+jietu2
 android-studio
 sogouinput
 android-platform-tools
 iterm2
 google-chrome
-pycharm
 )
 
 # 安装GUI软件包
@@ -62,7 +67,9 @@ done
 replace_zsh(){
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 chsh -s /bin/zsh
+echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles' >> ~/.zshrc
 git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+source ~/.zshrc
 }
 
 # 安装Python3环境
@@ -140,8 +147,9 @@ echo '您的Mac OS尚未安装homebrew，正准备为您安装🍻  '
 install_homebrew
 brew update
 fi
-install_cask_app
+update_binary
 install_cli_app
 replace_zsh
+install_cask_app
 install_python_env
 install_python_soft
